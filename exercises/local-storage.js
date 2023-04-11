@@ -22,7 +22,7 @@
  * * * Add the item's id to the local storage
  * * Make all the items that are listed in the favorites LS save the red background color when the page is reloaded
  */
-
+  
 /**
  * @hint
  * Here is a plan of how you can structure your code. You can follow it or choose your own way to go
@@ -37,4 +37,23 @@
  * * add the event listener to the container, pass the callback.
  */
 
-// Your code goes here...
+const container = document.querySelector('.cardsContainer');
+const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+const updateFavorites = (id) => {
+    favorites.includes(id) ? favorites.splice(favorites.indexOf(id), 1): favorites.push(id);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+};
+const updateColor = (id) => {
+    const item = document.getElementById(id);
+    favorites.includes(id)? item.style.backgroundColor = 'red': item.style.backgroundColor = 'white';
+};
+const updateBox = (event) => {
+    const id = event.target.id;
+    if (id) {
+        updateFavorites(id);
+        updateColor(id);
+    }
+};
+container.addEventListener('click', updateBox);
+favorites.forEach(updateColor);
+
